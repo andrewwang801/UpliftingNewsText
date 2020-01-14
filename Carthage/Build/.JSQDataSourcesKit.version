@@ -1,0 +1,15 @@
+{
+  "commitish" : "8.0.0",
+  "iOS" : [
+    {
+      "name" : "JSQDataSourcesKit",
+      "hash" : "a67f8d91dcd2fb14722f7a1040565ed280b39784a0fbb65c6419c6b4f9c48efc",
+      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+    },
+    {
+      "name" : "ExampleModel",
+      "hash" : "7a811c80cd3f8239bf95876a69b241b3cb58b8331199a6a2b11e58349474ec0b",
+      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+    }
+  ]
+}

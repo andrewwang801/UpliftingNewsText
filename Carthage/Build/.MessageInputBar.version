@@ -1,0 +1,10 @@
+{
+  "commitish" : "0.4.0",
+  "iOS" : [
+    {
+      "name" : "MessageInputBar",
+      "hash" : "68dddb9f599e6fbadb17c8e426c069c389244b7b32b9c51b6bc9c7f13aaf6b0c",
+      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+    }
+  ]
+}

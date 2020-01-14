@@ -1,0 +1,6 @@
+github "rs/SDWebImage"
+github "m1entus/MZFormSheetPresentationController" "master"
+github "marmelroy/PhoneNumberKit" ~> 2.6
+github "MessageKit/MessageKit" ~> 2.0.0
+github "SwiftyJSON/SwiftyJSON" ~> 4.0
+github "jessesquires/JSQDataSourcesKit" "8.0.0"

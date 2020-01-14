@@ -1,0 +1,30 @@
+PODS:
+  - Alamofire (4.9.1)
+  - Kingfisher (5.12.0):
+    - Kingfisher/Core (= 5.12.0)
+  - Kingfisher/Core (5.12.0)
+  - SkeletonView (1.8.2)
+  - SwiftyStoreKit (0.15.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.9.1)
+  - Kingfisher (~> 5.0)
+  - SkeletonView
+  - SwiftyStoreKit
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Kingfisher
+    - SkeletonView
+    - SwiftyStoreKit
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
+  SkeletonView: bb27c39857e5492136f02ee8a3aa78de55d12ecd
+  SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
+
+PODFILE CHECKSUM: 00b96e189e59fc40a1f420e35bd8fd0a4dd9d175
+
+COCOAPODS: 1.8.4

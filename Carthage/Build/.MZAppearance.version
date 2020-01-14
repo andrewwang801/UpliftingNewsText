@@ -1,0 +1,9 @@
+{
+  "commitish" : "de07b5fdd79465e4193095cd33a66843106e71de",
+  "iOS" : [
+    {
+      "name" : "MZAppearance",
+      "hash" : "f05b2dd62a540f3c1ebe0bdc9a5228eb5a9f7008b2cfa78ff1a5a5b1426ab6e3"
+    }
+  ]
+}

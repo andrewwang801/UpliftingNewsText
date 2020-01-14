@@ -1,0 +1,17 @@
+{
+  "commitish" : "5.4.2",
+  "iOS" : [
+    {
+      "name" : "SDWebImageMapKit",
+      "hash" : "91fa087c662d6b21c8ce26a09735f02407ecd083c143d346359db8af42349286"
+    },
+    {
+      "name" : "SDWebImage",
+      "hash" : "54e8d2e7a0385ccca530b589aa027be952e378f11f1367e9e28b61969b105e11"
+    },
+    {
+      "name" : "SDWebImage",
+      "hash" : "54e8d2e7a0385ccca530b589aa027be952e378f11f1367e9e28b61969b105e11"
+    }
+  ]
+}
