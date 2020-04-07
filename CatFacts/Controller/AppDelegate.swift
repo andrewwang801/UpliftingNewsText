@@ -18,15 +18,16 @@ import StoreKit
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
 
         AppSetting.shared.isPushTapped = true
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
         //setup IAP configuration before open news articles screen
         self.setupIAP()
         PFPush.handle(userInfo)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        completionHandler([.alert, .badge, .sound])
+        if AppSetting.string(keyNotification) == "1" {
+            completionHandler([.alert, .badge, .sound])
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -43,9 +44,32 @@ import StoreKit
             GlobInfo.sharedInstance().deviceTokenData = deviceToken;
         }
     }
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        
+        //if url.scheme == "open" {
+
+            AppSetting.set("1", forKey: kWidget)
+            
+            let newsArticleDetailVC = UIViewController.getViewController(storyboardName: "Main", storyboardID: "newsArticleDetailVC") as! NewsArticleDetailVC
+            let absoluteURL = url.absoluteString
+            newsArticleDetailVC.strURL = absoluteURL.replacingOccurrences(of: "open://", with: "")
+            
+            let _vcNav = UINavigationController(rootViewController: newsArticleDetailVC)
+            _vcNav.interactivePopGestureRecognizer?.isEnabled = true
+            _vcNav.interactivePopGestureRecognizer?.delegate = nil
+             
+            UIApplication.shared.keyWindow?.rootViewController = _vcNav
+            
+        //}
+        return true
+    }
   
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //show progress bar
+        SVProgressHUD.show(withStatus: "Loading...")
         
         globalInit()
         UIApplication.shared.statusBarStyle = .lightContent
@@ -76,16 +100,17 @@ import StoreKit
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
     }
     
     // MARK: - System Init
-    
+        
     func setupIAP () {
         
-        let productIds = Set([weekProduct, yearProduct])
+        let productIds = Set([monthProduct, yearProduct])
         IAP.requestProducts(productIds) { response, error in
             if let products = response?.products {
                 self.products = products.sorted(by: { Float($0.price) < Float($1.price) })
@@ -96,18 +121,31 @@ import StoreKit
                             if date >= Date()  {
                                 AppSetting.shared.expiredDate = date
                                 AppSetting.shared.isUnlocked = true
-                                self.startApp()
+                                AppSetting.shared.productId = productId
+                                DispatchQueue.main.async {
+                                    self.startApp()
+                                }
                             }
                         })
                     } else {
-                        self.startApp()
+                        DispatchQueue.main.async {
+                            self.startApp()
+                        }
                     }
                 })
             } else if let invalidProductIds = response?.invalidProductIdentifiers {
                 print(invalidProductIds)
-                self.startApp()
+                DispatchQueue.main.async {
+                    self.startApp()
+                }
             } else {
                 print(error?.localizedDescription)
+                DispatchQueue.main.async {
+                    self.startApp()
+                }
+            }
+
+            DispatchQueue.main.async {
                 self.startApp()
             }
         }
@@ -150,56 +188,45 @@ import StoreKit
     }
     
     func gotoMain() {
-        
+
         let _storyBoard = UIStoryboard(name: "Main", bundle: nil)
         var _viewMain:UIViewController?
-        
-        if (AppSetting.shared.isUnlocked) {
+    
+        if (AppSetting.stringGroup(forKey: kPlan) != kEmpty) {
             _viewMain = _storyBoard.instantiateViewController(withIdentifier: "NewsArticlesVC")
         } else {
             _viewMain = _storyBoard.instantiateViewController(withIdentifier: "PickPlanVC")
         }
-
+        
         var _viewNav:UINavigationController?
         _viewNav = UINavigationController(rootViewController: _viewMain!)
-        
+
         _viewNav?.interactivePopGestureRecognizer?.isEnabled = true
         _viewNav?.interactivePopGestureRecognizer?.delegate = nil
-        
-        
+
         let menuVC = _storyBoard.instantiateViewController(withIdentifier: "MenuVC")
         let menuNavController = UINavigationController(rootViewController: menuVC)
-        
+
         let mainRevealController:SWRevealViewController = SWRevealViewController(rearViewController: menuNavController, frontViewController: _viewNav)
         self.window?.rootViewController = mainRevealController
         self.window?.makeKeyAndVisible()
+ 
     }
-    
-    func gotoPickPlan() {
-         
-         let _storyBoard = UIStoryboard(name: "Main", bundle: nil)
-         var _viewMain:UIViewController?
-         _viewMain = _storyBoard.instantiateViewController(withIdentifier: "PickPlanVC")
-
-         var _viewNav:UINavigationController?
-         _viewNav = UINavigationController(rootViewController: _viewMain!)
-         
-         _viewNav?.interactivePopGestureRecognizer?.isEnabled = true
-         _viewNav?.interactivePopGestureRecognizer?.delegate = nil
-         
-         let menuVC = _storyBoard.instantiateViewController(withIdentifier: "MenuVC")
-         let menuNavController = UINavigationController(rootViewController: menuVC)
-         
-         let mainRevealController:SWRevealViewController = SWRevealViewController(rearViewController: menuNavController, frontViewController: _viewNav)
-         self.window?.rootViewController = mainRevealController
-         self.window?.makeKeyAndVisible()
-     }
     
     func globalInit() {
         
         self.initParse()
         self.initAppearance()
-        self.setupIAP()
+        
+        if AppSetting.stringGroup(forKey: "url") == kEmpty {
+            self.setupIAP()
+        }
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.dismiss()
+        }
+        AppSetting.setGroup(kEmpty, forKey: "url")
+        Utils.setSubscriptionDesc(productId: AppSetting.shared.productId)
     }
     
     func initAppearance() {
@@ -209,19 +236,14 @@ import StoreKit
         //SVProgressHUD.setInfoImage(UIImage())
         SVProgressHUD.setFont(UIFont.systemFont(ofSize: 13.0))
         
-        UINavigationBar.appearance().barTintColor = UIColor(red: 72/255.0, green: 122/255.0, blue: 172/255.0, alpha: 1.0)
+        UINavigationBar.appearance().barTintColor = UIColor(red: 73/255.0, green: 123/255.0, blue: 177/255.0, alpha: 1.0)
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font:UIFont(name: "Helvetica Neue", size: 20.0)!]
         UINavigationBar.appearance().tintColor = UIColor.white
     }
     
     func startApp() {
-        
-        if (GlobInfo.sharedInstance().isLoggedIn() == true) {
-            self.gotoMain()
-        } else {
-            self.gotoSignin()
-        }
+        self.gotoMain()
     }
 }
 

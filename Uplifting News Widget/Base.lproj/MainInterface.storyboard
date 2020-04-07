@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ERj-pM-Pdf">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="dE2-uP-J5o">
+            <objects>
+                <tableViewController storyboardIdentifier="NewsArticlesVC" id="ERj-pM-Pdf" customClass="TodayViewController" customModule="Uplifting_News" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EzB-hp-eoD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsArticleCell" id="Key-iM-BWn" customClass="NewsArticleCell" customModule="Uplifting_News" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="106"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Key-iM-BWn" id="cZ1-Ej-C0t">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tyu-ef-iqj">
+                                            <rect key="frame" x="0.0" y="5" width="414" height="96"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3B7-89-4Sv">
+                                                    <rect key="frame" x="8" y="8" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="WXR-Ts-FKX"/>
+                                                        <constraint firstAttribute="width" secondItem="3B7-89-4Sv" secondAttribute="height" multiplier="1:1" id="uhW-Og-2Yu"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is an article." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="xQY-BE-oT7">
+                                                    <rect key="frame" x="98" y="8" width="306" height="56"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.bbc.com" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26d-U6-PH4">
+                                                    <rect key="frame" x="98" y="64.5" width="306" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="26d-U6-PH4" firstAttribute="leading" secondItem="xQY-BE-oT7" secondAttribute="leading" id="0Qv-hP-AnH"/>
+                                                <constraint firstItem="xQY-BE-oT7" firstAttribute="top" secondItem="3B7-89-4Sv" secondAttribute="top" id="Ab3-ge-tJp"/>
+                                                <constraint firstAttribute="trailing" secondItem="26d-U6-PH4" secondAttribute="trailing" constant="10" id="JbW-NZ-1DT"/>
+                                                <constraint firstItem="xQY-BE-oT7" firstAttribute="leading" secondItem="3B7-89-4Sv" secondAttribute="trailing" constant="10" id="LIu-6k-X3g"/>
+                                                <constraint firstItem="3B7-89-4Sv" firstAttribute="leading" secondItem="tyu-ef-iqj" secondAttribute="leading" constant="8" id="NH2-EH-jyj"/>
+                                                <constraint firstItem="26d-U6-PH4" firstAttribute="top" secondItem="xQY-BE-oT7" secondAttribute="bottom" constant="0.66666666666665719" id="TND-kI-nEk"/>
+                                                <constraint firstAttribute="bottom" secondItem="3B7-89-4Sv" secondAttribute="bottom" constant="8" id="WLL-Km-alI"/>
+                                                <constraint firstItem="xQY-BE-oT7" firstAttribute="height" secondItem="3B7-89-4Sv" secondAttribute="height" multiplier="0.7" id="uPE-9k-m7O"/>
+                                                <constraint firstAttribute="trailing" secondItem="xQY-BE-oT7" secondAttribute="trailing" constant="10" id="v6A-oY-X53"/>
+                                                <constraint firstItem="3B7-89-4Sv" firstAttribute="top" secondItem="tyu-ef-iqj" secondAttribute="top" constant="8" id="vBR-QL-MBC"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="tyu-ef-iqj" secondAttribute="bottom" constant="5" id="A3b-rL-OUf"/>
+                                        <constraint firstAttribute="trailing" secondItem="tyu-ef-iqj" secondAttribute="trailing" id="JCX-PB-jBw"/>
+                                        <constraint firstItem="tyu-ef-iqj" firstAttribute="top" secondItem="cZ1-Ej-C0t" secondAttribute="top" constant="5" id="KwL-ou-IDC"/>
+                                        <constraint firstItem="tyu-ef-iqj" firstAttribute="leading" secondItem="cZ1-Ej-C0t" secondAttribute="leading" id="uFe-XJ-aJc"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetHeight">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                            <real key="value" value="0.29999999999999999"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="newsArticleImage" destination="3B7-89-4Sv" id="wKF-r4-O6H"/>
+                                    <outlet property="newsArticleSelfText" destination="26d-U6-PH4" id="8hG-tD-oS8"/>
+                                    <outlet property="newsArticleTitle" destination="xQY-BE-oT7" id="Hli-4R-VfW"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ERj-pM-Pdf" id="8Wj-Bh-pgI"/>
+                            <outlet property="delegate" destination="ERj-pM-Pdf" id="doa-Pu-RgR"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W4X-8G-LLW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528" y="-305"/>
+        </scene>
+    </scenes>
+</document>

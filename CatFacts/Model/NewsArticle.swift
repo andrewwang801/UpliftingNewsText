@@ -15,6 +15,7 @@ class NewsArticle {
     var thumbnail = ""
     var url = ""
     var domain = ""
+    var created = 0.0
     
     static func fromToArr(json: JSON) -> [NewsArticle] {
         
@@ -27,12 +28,14 @@ class NewsArticle {
             guard let title = news["data"]["title"].string,
                 let thumbnail = news["data"]["thumbnail"].string,
                 let domain = news["data"]["domain"].string,
+                let created = news["data"]["created"].double,
                 let url = news["data"]["url"].string  else { continue }
             let newsArticle = NewsArticle()
             newsArticle.title = title
             newsArticle.thumbnail = thumbnail
             newsArticle.url = url
             newsArticle.domain = domain
+            newsArticle.created = created
             newsArticleArr.append(newsArticle)
         }
         return newsArticleArr

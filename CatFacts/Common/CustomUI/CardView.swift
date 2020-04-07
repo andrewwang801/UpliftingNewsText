@@ -12,11 +12,19 @@ class CardView: UIButton {
     @IBInspectable var cornerRadius: CGFloat = 2
     
     @IBInspectable var shadowOffsetWidth: Int = 0
-    @IBInspectable var shadowOffsetHeight: Int = 3
+    @IBInspectable var shadowOffsetHeight: Int = 0
     @IBInspectable var shadowColor: UIColor? = .black
-    @IBInspectable var shadowOpacity: Float = 0.5
+    @IBInspectable var shadowOpacity: Float = 0.0
     @IBInspectable var borderWidth: CGFloat = 1.0
     @IBInspectable var borderColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     override func layoutSubviews() {
         layer.cornerRadius = cornerRadius

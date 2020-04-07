@@ -9,39 +9,38 @@
 import UIKit
 import MessageUI
 
-class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
+class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate, Router {
 
+    @IBOutlet var pickPlanLable: UILabel!
+    @IBOutlet weak var pickPlanCell: UITableViewCell!
+    
     enum TableRow {
-        case about, help, faq, feedbackAndSupport, rateThisApp, inviteFriends, likeUsOnFacebook, followUsOnTwitter, visitOurWebsite, privacyPolicy, termsOfService, plan, logout
+        case account, plan, about, help, faq, feedbackAndSupport, rateThisApp, inviteFriends, visitOurWebsite, privacyPolicy, termsOfService
 
         init?(row: Int) {
             switch (row) {
             case 0:
-                self = .about
+                self = .account
             case 1:
-                self = .help
+                self = .plan
             case 2:
-                self = .faq
+                self = .about
             case 3:
-                self = .feedbackAndSupport
+                self = .help
             case 4:
-                self = .rateThisApp
+                self = .faq
             case 5:
-                self = .inviteFriends
+                self = .feedbackAndSupport
             case 6:
-                self = .likeUsOnFacebook
+                self = .rateThisApp
             case 7:
-                self = .followUsOnTwitter
+                self = .inviteFriends
             case 8:
                 self = .visitOurWebsite
             case 9:
                 self = .privacyPolicy
             case 10:
                 self = .termsOfService
-            case 11:
-                self = .plan
-            case 12:
-                self = .logout
             default:
                 return nil
             }
@@ -76,22 +75,24 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
         mailComposerVC.setToRecipients(["support@upliftingnewstexts.com"])
         mailComposerVC.setSubject("Feedback & Support")
 
-        let globInfo = GlobInfo.sharedInstance()
-        let email = globInfo!.objCurrentUser.email ?? ""
+        let email = ""
         let from = "From:      \(email)\n"
         let subject = "Subject:  Feedback & Support\n"
         let body = "Body:\n" + "                 Hi, I am having an issue with XXXXXXX feature.\n"
 
         let appVersion = Utils.getAppVersion()
-        let contactCount = contactArray.count
         var creditCount = 0
         for contact in contactArray {
             let objContact = contact as! PFObject
             let credit = objContact["numberCredits"] as? Int ?? 0
             creditCount += credit
         }
-        let diagnostics = "Diagnostics:\n" + "                 App Version : \(appVersion)\n" + "                 Number of credits : \(creditCount)\n" + "                 Number of contacts : \(contactCount)"
-        let messageBody = from+subject+body+diagnostics
+        
+        let planDesc = Utils.getSubscriptionDesc()
+        
+        let diagnostics = "Diagnostics:\n" + "App Version : \(appVersion)\n" + "Plan: \(planDesc)\n\n"
+        let concludeStr = "Sincerely, \n\n" + "Matt McWillam"
+        let messageBody = from + subject + body + diagnostics + concludeStr
         mailComposerVC.setMessageBody(messageBody, isHTML: false)
 
         mailComposerVC.mailComposeDelegate = self
@@ -112,10 +113,6 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
     //MARK: - Methods
 
     func rateUs() {
-        /*
-         if let appStoreURL = URL(string: AppStoreLink) {
-         UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
-         }*/
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
         } else {
@@ -125,15 +122,6 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
             }
         }
         self.deselectSelectedIndexPath()
-
-        /*
-         let vc: SKStoreProductViewController = SKStoreProductViewController()
-         let params = [
-         SKStoreProductParameterITunesItemIdentifier:1074493881
-         ]
-         vc.delegate = self
-         vc.loadProductWithParameters(params, completionBlock: nil)
-         self.presentViewController(vc, animated: true) { () -> Void in }*/
     }
 
     func inviteFriends() {
@@ -172,21 +160,19 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
     }
 
     func visitOurWebsite() {
-        if let websiteURL = URL(string: "https://www.upliftingnewstexts.com/") {
+        if let websiteURL = URL(string: "https://www.upliftingnewsapp.com/") {
             UIApplication.shared.open(websiteURL, options: [:], completionHandler: nil)
         }
         self.deselectSelectedIndexPath()
     }
 
     func privacyPolicy(screenId: Int) {
-        if let privacyVC =  self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyVC") as? PrivacyPolicyVC {
+        if let privacyVC =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrivacyPolicyVC") as? PrivacyPolicyVC {
             privacyVC.screenId = screenId
 
             let navController = UINavigationController(rootViewController: privacyVC)
             navController.modalPresentationStyle = .fullScreen
             self.present(navController, animated: true, completion: nil)
-            //self.presentViewController(navController, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(privacyVC, animated: true)
         }
     }
     
@@ -195,7 +181,6 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
             pickPlanVC.fromMenu = 1
             let navController = UINavigationController(rootViewController: pickPlanVC)
             navController.modalPresentationStyle = .fullScreen
-//            self.present(navController, animated: true, completion: nil)
             UIApplication.shared.keyWindow?.rootViewController?.present(navController, animated: true, completion: nil)
         }
     }
@@ -219,22 +204,16 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
             self.privacyPolicy(screenId: 3)
             break
         case .faq:
-            self.privacyPolicy(screenId: 4)
+            gotoPrivacyPolicy(screenId: 4)
             break
         case .feedbackAndSupport:
-            self.sendEmail()
+            goToContactSupport()
             break;
         case .rateThisApp:
             self.rateUs()
             break
         case .inviteFriends:
             self.inviteFriends()
-            break
-        case .likeUsOnFacebook:
-            self.likeUsOnFacebook()
-            break
-        case .followUsOnTwitter:
-            self.followUsOnTwitter()
             break
         case .visitOurWebsite:
             self.visitOurWebsite()
@@ -247,9 +226,9 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
             break
         case .plan:
             self.pickPlan()
-            break
-        case .logout:
-            self.logout()
+            break;
+        case .account:
+            gotoAccountPreference()
             break;
         }
     }
@@ -273,11 +252,13 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        pickPlanLable.text = Utils.setTitle()
+        
         if revealViewController() != nil {
             revealViewController().rightViewRevealWidth = 100
         }
-
+        updatePlanCell()
+        
         self.tableView.estimatedRowHeight = 100.0;
         self.tableView.rowHeight = UITableView.automaticDimension
     }
@@ -286,5 +267,22 @@ class MenuVC: UITableViewController, MFMailComposeViewControllerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func daysBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: start, to: end).day!
+    }
 
+    func updatePlanCell() {
+        if AppSetting.shared.isUnlocked {
+            pickPlanCell.isHidden = true
+            pickPlanLable.isHidden = true
+            pickPlanCell.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            pickPlanLable.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
+        else {
+            pickPlanCell.isHidden = false
+            pickPlanLable.isHidden = false
+            pickPlanLable.text = "Upgrade to Premium"
+        }
+    }
 }

@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.9.1)
+  - IBAnimatable (6.0.0)
   - Kingfisher (5.12.0):
     - Kingfisher/Core (= 5.12.0)
   - Kingfisher/Core (5.12.0)
@@ -8,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.9.1)
+  - IBAnimatable
   - Kingfisher (~> 5.0)
   - SkeletonView
   - SwiftyStoreKit
@@ -15,16 +17,18 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - IBAnimatable
     - Kingfisher
     - SkeletonView
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  IBAnimatable: d49f9fee0c401b5b08d31b77256b77fb067e0e92
   Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
   SkeletonView: bb27c39857e5492136f02ee8a3aa78de55d12ecd
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 00b96e189e59fc40a1f420e35bd8fd0a4dd9d175
+PODFILE CHECKSUM: 45bad6d387674fbd31fa858581f67c634a41be75
 
 COCOAPODS: 1.8.4

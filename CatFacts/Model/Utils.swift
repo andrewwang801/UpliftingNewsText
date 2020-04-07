@@ -86,5 +86,56 @@ class Utils: NSObject {
 
         return dateString + " " + timeString
     }
-
+    
+    static func getDateFromTimeStamp(from: Double) -> Date {
+        let date = Date(timeIntervalSince1970: from)
+        return date
+    }
+    
+    static func setTitle() -> String {
+        if AppSetting.shared.isUnlocked {
+            return kPurchasedPlanMsg
+        }
+        else {
+            return kPickPlanMsg
+        }
+    }
+    
+    static func getSubscriptionDesc() -> String {
+        
+        var planDesc: String
+        
+        switch AppSetting.stringGroup(forKey: kPlan) {
+        case kMonth:
+            planDesc = kMonthDesc
+            break
+        case kYear:
+            planDesc = kAnnualDesc
+            break
+        default:
+            planDesc = kFreeDesc
+            break
+        }
+        return planDesc
+    }
+    
+    
+    static func setSubscriptionDesc(productId: String) {
+        switch productId {
+        case monthProduct:
+            AppSetting.shared.subscriptionDesc = kMonthDesc
+            AppSetting.setGroup(kMonth, forKey: kPlan)
+            break
+        case yearProduct:
+            AppSetting.shared.subscriptionDesc = kAnnualDesc
+            AppSetting.setGroup(kYear, forKey: kPlan)
+            break
+        case kFree:
+            AppSetting.shared.subscriptionDesc = kFreeDesc
+            AppSetting.setGroup(kFree, forKey: kPlan)
+            break
+        default:
+            break
+        }
+    }
 }

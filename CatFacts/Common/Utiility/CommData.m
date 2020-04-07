@@ -2,7 +2,7 @@
 #import "CommData.h"
 #import "kchmacros.h"
 #import "DateTools.h"
-#import "CatFacts-Swift.h"
+#import "upliftingNewsTexts-Swift.h"
 
 @implementation CommData
 

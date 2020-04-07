@@ -18,29 +18,34 @@ class AppSetting {
         return gbInstance!
     }
     
+    //In App purchase settings
     var expiredDate: Date?
     var isUnlocked = false
+    var productId: String = ""
+    
+    //Tapped push notification
     var isPushTapped = false
     
-    enum SubscriptionID: String {
-        case none = "0"
-        case free = "1"
-        case monthly = "2"
-        case yearly = "3"
-    }
-    
-    static var subscription = SubscriptionID(rawValue: string("app_subscription")) ?? .none {
-        didSet {
-            set(subscription.rawValue, forKey: "app_subscription")
-        }
-    }
-    
-    private static func string(_ forKey: String, default:String = "") -> String {
+    //Subscription Description
+    var subscriptionDesc = ""
+
+    public static func string(_ forKey: String, default:String = "") -> String {
         return UserDefaults.standard.string(forKey: forKey) ?? `default`
     }
     
-    private static func set(_ value:String, forKey:String){
+    public static func set(_ value:String, forKey:String){
         UserDefaults.standard.set(value, forKey: forKey)
+    }
+    
+    // UserDefaults for AppGroup
+    public static func setGroup(_ value: String, forKey: String){
+        let defaults = UserDefaults(suiteName: kAppGroup)
+        defaults?.set(value, forKey: forKey)
+    }
+    
+    public static func stringGroup(forKey: String) -> String{
+        let defaults = UserDefaults(suiteName: kAppGroup)
+        return defaults?.string(forKey: forKey) ?? ""
     }
 }
 var gbInstance: AppSetting?
